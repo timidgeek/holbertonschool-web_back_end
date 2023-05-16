@@ -29,6 +29,7 @@ export default class HolbertonCourse {
     }
 
     this._name = newName;
+    this.log.push(newName);
   }
 
   // length getter, setter, initialization
@@ -42,6 +43,7 @@ export default class HolbertonCourse {
     }
 
     this._length = newLength;
+    this.log.push(newLength);
   }
 
   // students getter, setter, initialization
@@ -55,5 +57,6 @@ export default class HolbertonCourse {
     }
 
     this.__students = newStudents;
+    this.log.push(newStudents);
   }
 }

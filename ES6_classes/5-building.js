@@ -3,9 +3,16 @@ export default class Building {
     this._sqft = sqft;
   }
 
-  // sqft getter
+  // sqft getter, setter, implementation
   get sqft() {
     return this.sqft;
+  }
+
+  set sqft(newSqft) {
+    if (typeof newSqft !== 'number') {
+      throw new TypeError('Sqft must be a number');
+    }
+    this._sqft = newSqft;
   }
 
   // warning message method

@@ -25,6 +25,7 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """pass"""
         pass
 
 
@@ -49,10 +50,11 @@ def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         page > 0 and page_size > 0
 
     start_index, end_index = index_range(page, page_size)
+    paginationList = []  # return empty if out of range
 
     dataset = self.dataset()
-    # check for out of range, if so return empty list
-    if start_index >= len(dataset):
-        return []
+    if end_index < len(dataset):
+        for new_index in range(start_index, end_index):
+            paginationList.append(dataset[new_index])
 
-    return dataset[start_index, end_index]
+    return paginationList

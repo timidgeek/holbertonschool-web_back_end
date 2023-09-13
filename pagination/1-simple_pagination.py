@@ -31,7 +31,19 @@ class Server:
         to find the correct indexes to paginate the dataset and
         return the appropriate page of the dataset
         """
-        pass
+        # input vaidation / verify arguments exist & are greater than zero
+        assert isinstance(page, int) and isinstance(page_size, int) and \
+            page > 0 and page_size > 0
+
+        (start_index, end_index) = index_range(page, page_size)
+        paginationList = []  # return empty if out of range
+
+        dataset = self.dataset()
+        if end_index < len(dataset):
+            for new_index in range(start_index, end_index):
+                paginationList.append(dataset[new_index])
+
+        return paginationList
 
 
 def index_range(page: int, page_size: int) -> tuple:
@@ -41,25 +53,3 @@ def index_range(page: int, page_size: int) -> tuple:
     pagination parameters
     """
     return (page_size * (page - 1), page_size * page)
-
-
-def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-    """
-    function that takes two integer arguments,
-    verifies they are greater than zero, uses `index_range`
-    to find the correct indexes to paginate the dataset and
-    return the appropriate page of the dataset
-    """
-    # input vaidation / verify arguments exist & are greater than zero
-    assert isinstance(page, int) and isinstance(page_size, int) and \
-        page > 0 and page_size > 0
-
-    (start_index, end_index) = index_range(page, page_size)
-    paginationList = []  # return empty if out of range
-
-    dataset = self.dataset()
-    if end_index < len(dataset):
-        for new_index in range(start_index, end_index):
-            paginationList.append(dataset[new_index])
-
-    return paginationList

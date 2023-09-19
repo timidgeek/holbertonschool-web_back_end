@@ -13,15 +13,16 @@ arguments:
         a string representing by which character is separating all
         fields in the log line (message)
 """
-import logging, re
+import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str, \
-    message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
     """
     function that uses a regex to replace occurences of certain
-    field values 
+    field values
     """
-    pattern = f'({separator}|^)({"|".join(map(re.escape, fields))})=([^{separator}]*)'
+    sep = separator
+    pattern = f'({sep}|^)({"|".join(map(re.escape, fields))})=([^{sep}]*)'
     return re.sub(pattern, rf'\1\2={redaction}', message)

@@ -108,3 +108,25 @@ class RedactingFormatter(logging.Formatter):
         message = super().format(record)
         return filter_datum(self.fields, self.REDACTION,
                             message, self.SEPARATOR)
+
+    # main function
+
+    def main():
+        # Configure the logger
+        logger = get_logger()
+
+        # Retrieve data from the database and log it with redacted sensitive
+        # fields
+        db = get_db()
+        if db:
+            cursor = db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM users;")
+            for row in cursor:
+                filtered_data = {
+                    key: "***" if key in PII_FIELDS else value for key,
+                    value in row.items()}
+                log_message = "; ".join(
+                    [f"{key}={value}" for key, value in filtered_data.items()])
+                logger.info(log_message)
+            cursor.close()
+            db.close()

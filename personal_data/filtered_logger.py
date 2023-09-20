@@ -130,3 +130,6 @@ class RedactingFormatter(logging.Formatter):
                 logger.info(log_message)
             cursor.close()
             db.close()
+
+    if __name__ == "__main__":
+        main()

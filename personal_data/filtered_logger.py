@@ -21,7 +21,7 @@ from typing import List
 
 
 # Function Definitions
-def get_db():
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Connects to a MySQL database using environment variables for credentials.
     Returns a MySQLConnection object.

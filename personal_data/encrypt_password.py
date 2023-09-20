@@ -18,3 +18,15 @@ def hash_password(password: str) -> bytes:
 
     # Return the salted and hashed password as a byte string
     return hashed_password
+
+
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """
+    validates that the provided password matches the hashed password
+    """
+    try:
+        # Verify the provided password against the hashed password
+        return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+    except (ValueError, TypeError):
+        # Handle exceptions gracefully (e.g., if hashed_password is not valid)
+        return False

@@ -13,12 +13,39 @@ arguments:
         a string representing by which character is separating all
         fields in the log line (message)
 """
+import os
+import mysql.connector
 import re
 import logging
 from typing import List
 
 
 # Function Definitions
+def get_db():
+    """
+    Connects to a MySQL database using environment variables for credentials.
+    Returns a MySQLConnection object.
+    """
+    # Get database credentials from environment variables
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    # Create a database connection
+    try:
+        connection = mysql.connector.connect(
+            user=db_username,
+            password=db_password,
+            host=db_host,
+            database=db_name
+        )
+        return connection
+    except mysql.connector.Error as err:
+        print(f"Error connecting to the database: {err}")
+        return None
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """

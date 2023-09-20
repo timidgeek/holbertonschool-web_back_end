@@ -12,15 +12,25 @@ class Auth():
     auth class for authentication
     """
 
+    def __init__(self):
+        pass
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ returns True if authenticated, else False"""
-        if not path or not excluded_paths:
+        if path is None:
             return True
-        return False if os.path.join(path, '') in excluded_paths else True
+
+        if excluded_paths is None or excluded_paths == []:
+            return True
+
+        if path in excluded_paths or path + '/' in excluded_paths:
+            return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """ returns Flask request """
-        if not request or 'Authorization' not in request.headers:
+        if request is None or 'Authorization' not in request.headers:
             return None
         return request.headers['Authorization']
 

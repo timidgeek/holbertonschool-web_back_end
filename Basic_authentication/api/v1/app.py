@@ -35,6 +35,10 @@ def unauthorized_error(error) -> str:
     """
     return jsonify({"error": "Unauthorized"}), 401
 
+@app.route('/api/v1/unauthorized', methods=['GET'])
+def unauthorized_route():
+    abort(401)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")

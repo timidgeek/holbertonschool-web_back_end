@@ -20,6 +20,7 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """
@@ -28,6 +29,8 @@ def forbidden(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 # Create an error handler for 401 Unauthorized
+
+
 @app.errorhandler(401)
 def unauthorized_error(error) -> str:
     """
@@ -35,8 +38,12 @@ def unauthorized_error(error) -> str:
     """
     return jsonify({"error": "Unauthorized"}), 401
 
+
 @app.route('/api/v1/unauthorized', methods=['GET'])
 def unauthorized_route():
+    """
+    unauthorized route - abort
+    """
     abort(401)
 
 

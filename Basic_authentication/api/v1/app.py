@@ -14,6 +14,9 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
+auth = None
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -32,7 +35,7 @@ def forbidden(error) -> str:
 
 
 @app.errorhandler(401)
-def unauthorized_error(error) -> str:
+def unauthorized(error) -> str:
     """
     unauthorized handler
     """
@@ -45,6 +48,20 @@ def unauthorized_route():
     unauthorized route - abort
     """
     abort(401)
+
+@app.before_request
+def before_request():
+    """
+    runs before every request
+    """
+    path_list = ['/api/v1/status/',
+                 '/api/v1/unauthorized',
+                 '/api/v1/forbidden']
+    if auth and auth.require_auth(request.path, path_list):
+        if auth.authorization_header(request) is None:
+            abort(401)
+        if auth.current_user(request) is None:
+            abort(403)
 
 
 if __name__ == "__main__":

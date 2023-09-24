@@ -19,8 +19,8 @@ def view_all_users() -> str:
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def view_one_user(user_id: str = None) -> str:
     """ GET /api/v1/users/<user_id>
-    
-    returns user object JSON represented, 
+
+    returns user object JSON represented,
     404 if the User ID doesn't exist
     """
     if user_id == 'me':
@@ -31,6 +31,8 @@ def view_one_user(user_id: str = None) -> str:
         # return authenticated user in a json response
         return jsonify(request.current_user.to_dict())
 
+    if user_id is None:
+        abort(404)
     user = User.get(user_id)
     if user is None:
         abort(404)

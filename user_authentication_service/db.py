@@ -2,6 +2,8 @@
 """DB module
 """
 from sqlalchemy import create_engine
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -42,3 +44,22 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+        method that takes in arbitrary keyword arguments
+        and returns the first row found in the users table
+        as filtered by the method's input arguments
+        """
+        # check if valid response given
+        if not kwargs:
+            raise InvalidRequestError
+
+        # bind and filter
+        user = self._session.query(User).filter_by(**kwargs).first()
+    
+        # check if exists
+        if user is None:
+            raise NoResultFound
+    
+        return user

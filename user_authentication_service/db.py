@@ -57,9 +57,27 @@ class DB:
 
         # bind and filter
         user = self._session.query(User).filter_by(**kwargs).first()
-    
+
         # check if exists
         if user is None:
             raise NoResultFound
-    
+
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        method that uses `find_user_by` to locate the user
+        to update, then will update the user's attributes as
+        passed in the method's arguments then commit changes
+        to the database
+        """
+        # locate user to update
+        user = self.find_user_by(id=user_id)
+
+        for attr, value in kwargs.items():
+            # check if attribute valid
+            if not hasattr(user, attr):
+                raise ValueError
+            setattr(user, attr, value)
+
+        self._session.commit()  # save to database

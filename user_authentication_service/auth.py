@@ -58,6 +58,7 @@ class Auth:
         except NoResultFound:
             return None
 
+
 def _hash_password(password: str) -> bytes:
     """
     password hashed with `bcrypt.hashpw`

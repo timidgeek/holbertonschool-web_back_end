@@ -18,18 +18,18 @@ def login():
     email = request.form.get('email')
     if not email:
         return jsonify({'error': 'email missing'}), 400
+    # get password, handle missing errors
+    password = request.form.get('password')
+    if not password:
+        return jsonify({"error": "password missing"}), 400
     try:
         user = User.search({'email': email})
     except Exception:
         return jsonify({'error': 'no user found for this email'}), 404
+
     if not user:
         return jsonify({'error': 'no user found for this email'}), 404
     user = user[0]
-
-    # get password, handle missing errors
-    password = request.form.get('password')
-    if not password:
-        return jsonify({'error': 'password missing'}), 400
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
@@ -42,3 +42,16 @@ def login():
     response = jsonify(user.to_json())
     response.set_cookie(SESSION_NAME, session_id)
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """
+    route for DELETE /api/v1/auth_session/logout
+    """
+    from api.v1.app import auth
+
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({}), 200

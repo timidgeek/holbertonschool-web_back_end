@@ -68,9 +68,9 @@ class TestMemoize(TestCase):
                 """ Returns memoized property """
                 return self.a_method()
 
-        with patch.object(TestClass, 'a_method') as mock:
+        test_class = TestClass()
+        with patch.object(test_class, 'a_method') as mock:
             mock.return_value = 42
-            test_class = TestClass()
 
             test_class.a_property
             test_class.a_property

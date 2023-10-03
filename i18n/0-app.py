@@ -10,5 +10,6 @@ def index():
     """renders `index.html` doc"""
     return render_template('0-index.html')
 
+
 if __name__ == 'main':
     app.run()

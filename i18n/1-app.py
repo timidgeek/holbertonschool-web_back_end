@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """ basic babel setup task one """
 from flask import Flask, render_template
 from flask_babel import Babel
@@ -12,6 +12,9 @@ class Config():
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = ["en"]
     BABEL_DEFAULT_TIMEZONE = ["UTC"]
+
+
+app.config.from_object(Config)
 
 
 @app.route('/')

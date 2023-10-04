@@ -53,7 +53,7 @@ def get_locale():
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
         return locale
-    
+
     user = getattr(g, 'user', None)
     if user is not None:
         locale = user.locale

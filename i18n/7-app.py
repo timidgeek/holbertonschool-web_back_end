@@ -44,7 +44,7 @@ def before_request():
 @app.route('/')
 def index():
     """renders `index.html` doc"""
-    return render_template('6-index.html')
+    return render_template('7-index.html')
 
 
 @babel.localeselector
@@ -53,13 +53,31 @@ def get_locale():
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
         return locale
-    
+    if g.user:
+        user_locale = g.user.get("locale")
+        if user_locale and user_locale in app.config['LANGUAGES']:
+            return user_locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
+@babel.timezoneselector
+def get_timezone() -> str:
+    """ users preferred timezone """
+    timezone = request.args.get('timezone')
+    if timezone:
+        try:
+            return timezone
+        except pytz.exceptions.UnknownTimeZoneError:
+            pass
     user = getattr(g, 'user', None)
     if user is not None:
-        locale = user.locale
-        if locale in app.config['LANGUAGES']:
-            return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+        timezone = user.timezone
+        if timezone:
+            try:
+                return timezone
+            except pytz.exceptions.UnknownTimeZoneError:
+                pass
+    return app.config['BABEL_DEFAULT_TIMEZONE']
 
 
 if __name__ == '__main__':

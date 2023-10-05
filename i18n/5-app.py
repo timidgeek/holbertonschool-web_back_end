@@ -7,7 +7,7 @@ app = Flask(__name__)
 babel = Babel(app)
 
 
-gettext.__doc__ = """ gettext doc string"""
+# gettext.__doc__ = """ gettext doc string"""
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},

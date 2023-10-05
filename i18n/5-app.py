@@ -28,8 +28,8 @@ app.config.from_object(Config)
 def get_user() -> users or None:
     """ finds user, if any """
     user_id = request.args.get('login_as')
-    if user_id:
-        return users.get(int(user_id))
+    if user_id and int(user_id) in users:
+        return users[int(user_id)]
     return None
 
 
@@ -49,7 +49,7 @@ def index():
 def get_locale():
     """determines best language match"""
     locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
+    if locale in app.config['LANGUAGES']:
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 

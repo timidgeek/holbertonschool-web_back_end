@@ -21,6 +21,8 @@ class Cache():
 
         data = self._redis.get(key)
         if data is not None and fn is not None:
+            if fn is int:
+                raise ValueError("Can not use 'int' callable for this key.")
             try:
                 return fn(data)
             except Exception as e:

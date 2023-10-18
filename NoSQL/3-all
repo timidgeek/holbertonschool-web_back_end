@@ -1,0 +1,2 @@
+// task three
+db.school.find();

@@ -1,0 +1,2 @@
+// task four
+db.school.find({"name":"Holberton school"})

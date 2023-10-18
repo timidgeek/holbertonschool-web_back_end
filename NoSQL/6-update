@@ -1,7 +1,6 @@
 // task six
-db.school.findAndModify({
-    query: { "name":"Holberton school" },
-    update: { $set: { "address":"972 Mission street" } },
-    new: true,
-    upsert: false
-})
+db.school.update(
+    { "name":"Holberton school" },
+    { $set: {"address":"972 Mission street"} },
+    { multi: true}
+)

@@ -13,8 +13,8 @@ BEGIN
   WHERE corrections.user_id = user_id;
 
   -- insert the average score for the user
-  INSERT INTO users (user_id, average_score)
-  VALUES (user_id, average_score)
-  ON DUPLICATE KEY UPDATE average_score = average_score;
+  UPDATE users 
+  SET average_score
+  WHERE id = user_id;
 END ;
 DELIMITER ;

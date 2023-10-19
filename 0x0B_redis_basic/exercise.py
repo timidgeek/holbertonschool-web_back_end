@@ -41,6 +41,7 @@ def call_history(method: Callable) -> Callable:
 class Cache():
     """"this is my cache.
     there are many like it but this one is mine"""
+
     def __init__(self):
         self._redis = redis.Redis()
         self._redis.flushdb()
@@ -48,11 +49,18 @@ class Cache():
     @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
+        """
+        takes a data argument and returns a string
+        """
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
 
     def get(self, key: str, fn: Callable = None):
+        """
+        convert the data back to the
+        desired format with callable
+        """
         data = self._redis.get(key)
         if data is not None and fn is not None:
             if fn is int:
@@ -64,12 +72,15 @@ class Cache():
         return data
 
     def get_str(self, key: str):
+        """get_str func"""
         return self.get(key, fn=lambda data: data.decode("utf-8"))
 
     def get_int(self, key: str):
+        """get_int func"""
         return self.get(key, fn=int)
 
     def get_call_count(self, method_name: str):
+        """get_call_count func"""
         count_key = f"call_count:{method_name}"
         count = self._redis.get(count_key)
         return int(count) if count is not None else 0

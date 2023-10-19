@@ -24,7 +24,7 @@ def call_history(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
-    
+
         # Append inputs
         input = str(args)
         self._redis.rpush(key + ":inputs", input)
@@ -70,3 +70,23 @@ class Cache():
         count_key = f"call_count:{method_name}"
         count = self._redis.get(count_key)
         return int(count) if count is not None else 0
+
+
+def replay(method: Callable) -> None:
+    """
+    function that displays the history
+    of calls of a particular function
+    """
+    method_name = method.__qualname__
+    count_key = method_name
+    inputs_key = f"{method_name}:inputs"
+    outputs_key = f"{method_name}:outputs"
+
+    count = method.__self__._redis.get(count_key)
+    inputs = method.__self__._redis.lrange(inputs_key, 0, -1)
+    outputs = method.__self__._redis.lrange(outputs_key, 0, -1)
+
+    print(f"{method_name} was called {int(count)} times:")
+    for input_str, output_str in zip(inputs, outputs):
+        print(f"{method_name}(*{input_str.decode('utf-8')}) ->\
+              {output_str.decode('utf-8')}")

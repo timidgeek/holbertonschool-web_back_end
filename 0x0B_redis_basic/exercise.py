@@ -7,6 +7,7 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
+    """counts amt of times cache class is called"""
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__

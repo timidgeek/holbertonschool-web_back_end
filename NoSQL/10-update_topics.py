@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ task 10 - change school topics """
-import mongo
 
 
 def update_topics(mongo_collection, name, topics):

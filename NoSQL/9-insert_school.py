@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ task 9 - insert document in Python """
-import mongo
 
 
 def insert_school(mongo_collection, **kwargs):

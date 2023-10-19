@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ task 11 - search list by topic """
-import mongo
 
 
 def schools_by_topic(mongo_collection, topic):

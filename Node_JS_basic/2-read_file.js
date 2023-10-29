@@ -8,14 +8,14 @@ module.exports = function countStudents(path) {
 
   try {
     // read database file synchronously
-    const db = fs.readFileSync(path, 'utf8')
+    const db = fs.readFileSync(path, 'utf8');
     // create list for students
     // const students = [];
 
     // parse the CSV data
     let data = db.split('\n');
     data = data.filter((line) => line !== '').slice(1);
-  
+
     // if database is available, log numStudents
     console.log(`Number of students: ${data.length}`);
 
@@ -36,8 +36,7 @@ module.exports = function countStudents(path) {
         console.log(`Number of students in ${field}: ${fields[field].count}. List: ${fields[field].list.join(', ')}`);
       }
     }
-  
   } catch (err) {
     console.error('Error: Cannot load the database');
   }
-}
+};

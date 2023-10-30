@@ -1,5 +1,5 @@
 // task five - node http server 2.0
-const http = require("http");
+const http = require('http');
 const countStudents = require('./3-read_file_async');
 
 // listening on port 1245
@@ -12,11 +12,11 @@ const port = 1245;
 const app = http.createServer(async (req, res) => {
   // handling paths
   if (req.url === '/') {
-    res.end("Hello Holberton School!");
+    res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     res.write('This is the list of our students\n');
-  
-    // content from `3-read_file_async.js` 
+
+    // content from `3-read_file_async.js`
     // with database name passed as argument
     await countStudents(process.argv[2])
       .then((data) => {
@@ -40,7 +40,7 @@ const app = http.createServer(async (req, res) => {
             res.write(`List: ${data[fields[i]].student.join(', ')}`);
           } else {
             res.write('List: N/A');
-          }    
+          }
 
           if (i < fields.length - 1) {
             res.write('\n');
@@ -54,9 +54,9 @@ const app = http.createServer(async (req, res) => {
         res.end();
       });
   }
-})
+});
 app.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
+  console.log(`Server is running on http://${host}:${port}`);
 });
 
 // app must be exported

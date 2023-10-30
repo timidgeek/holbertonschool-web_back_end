@@ -35,9 +35,9 @@ const app = http.createServer(async (req, res) => {
               data[fields[i]].numStudents
             }. `,
           );
-          if (data[fields[i]].names) {
-            // check if 'names' property is defined
-            res.write(`List: ${data[fields[i]].names.join(', ')}`);
+          if (data[fields[i]].student) {
+            // check if 'student' property is defined
+            res.write(`List: ${data[fields[i]].student.join(', ')}`);
           } else {
             res.write('List: N/A');
           }    

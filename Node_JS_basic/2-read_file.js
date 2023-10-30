@@ -33,10 +33,10 @@ module.exports = function countStudents(path) {
 
     for (const field in fields) {
       if (field) {
-        console.log(`Number of students in ${field}: ${fields[field].count}. List: ${fields[field].list.join(', ')}`);
+        console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
       }
     }
   } catch (err) {
-    console.error('Error: Cannot load the database');
+    throw new Error('Cannot load the database');
   }
 };

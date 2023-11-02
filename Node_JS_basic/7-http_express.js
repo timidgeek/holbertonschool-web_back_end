@@ -9,7 +9,7 @@ app
     res.send('Hello Holberton School!');
   })
   .get('/students', async (req, res) => {
-    res.send('This is the list of our students\n');
+    res.write('This is the list of our students\n');
     // content from `3-read_file_async.js`
     // with database name passed as argument
     await countStudents(process.argv[2])
